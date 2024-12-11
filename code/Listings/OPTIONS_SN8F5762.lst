@@ -1,0 +1,180 @@
+A51 MACRO ASSEMBLER  OPTIONS_SN8F5762                                                     08/06/2024 21:58:05 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\OPTIONS_SN8F5762.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE C:\Keil_v5\C51\INC\SONIX\OPTIONS_SN8F5762.A51 SET(SMALL) DEBUG PRINT(.\
+                      Listings\OPTIONS_SN8F5762.lst) OBJECT(.\Objects\OPTIONS_SN8F5762.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     $nomod51 
+                       2     ;------------------------------------------------------------------------------
+                       3     ;
+                       4     ;  Copyright (c) 2021 SONiX Technology Co., Ltd.
+                       5     ;  Version 1.0 - SN8F5762, SN8F5761, SN8F57611, SN8F57003. Add code option address for MP5
+                       6     ;  *** <<< Use Configuration Wizard in Context Menu >>> ***
+                       7     ;------------------------------------------------------------------------------
+                       8     ;
+                       9     ;  This preference, such as watchdog, external reset pin, and clock source, is preloaded 
+                      10     ;  during the microcontroller's power-on. It is strongly recommanded to use configuration 
+                      11     ;  wizard to set these parameters up appropriately.
+                      12     ;
+                      13     ;------------------------------------------------------------------------------
+  4800                14             ROM_SIZE                EQU             0x4800
+                      15     ;
+                      16     ;       <o.0..1> Program Memory Security <0x03=> Security Disable <0x02=> Security Enable.<
+                             0x00=> Security Configuration
+  0000                17             SECURITY_SET    EQU     0x00            ;       {0x47FF}
+                      18     ;   <i> Security Disable: all address ROM data can be accessed. 
+                      19     ;   <i> Security Enable: all address ROM data are protected.
+                      20     ;   <i> Security Configuration: all address ROM data are protected expect address 0x4680 ~ 
+                             0x477F ROM data can be accessed.
+                      21     
+                      22     ;   <o.2> ISP Program Area  <0x01=> All Page <0x00=> Page 141~ Page 142
+  0004                23         ISP_EN_SET    EQU     0x04          ;       {0x47FF}
+                      24     ;   <i> All Page: all address can perform ISP function.
+                      25     ;   <i> Page 141 ~ Page 142: only address 0x4680 ~ 0x477F can perform ISP function.
+                      26     
+                      27     ;   <h> CPU Clock
+                      28     
+                      29     ;   <o.2..4> CPU Clock Source <0x05=> IHRC 32 MHz <0x04=> IHRC 32 MHz with RTC <0x03=> X'ta
+                             l 16 MHz <0x01=> X'tal 12 MHz <0x00=> X'tal 4 MHz <0x02=> External Clock
+  0014                30         CLOCKSRC_SET    EQU     0x14                ;       {0x47FB}
+                      31     ;   <i> IHRC 32 MHz: on-chip internal clock.
+                      32     ;   <i> IHRC 32 MHz with RTC: on-chip internal clock with Timer 0 real time clock.
+                      33     ;   <i> X'tal 16 MHz: off-chip crystal between 16 MHz and 24 MHz.
+                      34     ;   <i> X'tal 12 MHz: off-chip crystal between 8 MHz and 16 MHz.
+                      35     ;   <i> X'tal 4 MHz: off-chip crystal between 1 MHz and 8 MHz.
+                      36     ;   <i> External Clock: external clock input from XIN pin.
+                      37     ;
+                      38     ;   <o.5..7> CPU Clock Rate for IHRC 32MHz  <0x00=> Fhosc/128 <0x01=> Fhosc/64 <0x02=> Fhos
+                             c/32 <0x03=> Fhosc/16 <0x04=> Fhosc/8 <0x05=> Fhosc/4  <0x06=> Fhosc/2 
+  00A0                39         IHRC32M_CLOCKRATE_SET    EQU     0xA0               ;       {0x7FFB}
+                      40     ;   <i> FCPU for IHRC 32MHz is Fhosc/2~Fhosc/128.
+                      41     
+                      42     ;   <o.5..7> CPU Clock Rate for IHRC 32 MHz with RTC  <0x00=> Fhosc/128 <0x01=> Fhosc/64 <0
+                             x02=> Fhosc/32 <0x03=> Fhosc/16 <0x04=> Fhosc/8 <0x05=> Fhosc/4  <0x06=> Fhosc/2 
+  00A0                43         IHRC32M_RTC_CLOCKRATE_SET    EQU     0xA0           ;       {0x7FFB}
+                      44     ;   <i> FCPU for IHRC 32MHz is Fhosc/2~Fhosc/128.
+                      45     
+                      46     ;   <o.5..7> CPU Clock Rate for X'tal 16 MHz  <0x00=> Fhosc/128 <0x01=> Fhosc/64 <0x02=> Fh
+                             osc/32 <0x03=> Fhosc/16 <0x04=> Fhosc/8 <0x05=> Fhosc/4  <0x06=> Fhosc/2 <0x07=> Fhosc/1 
+  00C0                47         XTAL16M_CLOCKRATE_SET    EQU     0xC0               ;       {0x7FFB}
+                      48     ;   <i> FCPU for X'tal 16 MHz is Fhosc/1~Fhosc/128.
+                      49     
+                      50     ;   <o.5..7> CPU Clock Rate for X'tal 12 MHz  <0x00=> Fhosc/128 <0x01=> Fhosc/64 <0x02=> Fh
+                             osc/32 <0x03=> Fhosc/16 <0x04=> Fhosc/8 <0x05=> Fhosc/4  <0x06=> Fhosc/2 <0x07=> Fhosc/1 
+A51 MACRO ASSEMBLER  OPTIONS_SN8F5762                                                     08/06/2024 21:58:05 PAGE     2
+
+  00C0                51         XTAL12M_CLOCKRATE_SET    EQU     0xC0               ;       {0x7FFB}
+                      52     ;   <i> FCPU for X'tal 12 MHz is Fhosc/1~Fhosc/128.
+                      53     
+                      54     ;   <o.5..7> CPU Clock Rate for X'tal 4 MHz  <0x00=> Fhosc/128 <0x01=> Fhosc/64 <0x02=> Fho
+                             sc/32 <0x03=> Fhosc/16 <0x04=> Fhosc/8 <0x05=> Fhosc/4  <0x06=> Fhosc/2 <0x07=> Fhosc/1 
+  00E0                55         XTAL4M_CLOCKRATE_SET    EQU     0xE0                ;       {0x7FFB}
+                      56     ;   <i> FCPU for X'tal 4 MHz is Fhosc/1~Fhosc/128.
+                      57     
+                      58     ;   <o.5..7> CPU Clock Rate for External Clock  <0x00=> Fhosc/128 <0x01=> Fhosc/64 <0x02=> 
+                             Fhosc/32 <0x03=> Fhosc/16 <0x04=> Fhosc/8 <0x05=> Fhosc/4  <0x06=> Fhosc/2 <0x07=> Fhosc/1 
+  00C0                59         EXTERNAL_CLOCKRATE_SET    EQU     0xC0              ;       {0x7FFB}
+                      60     ;   <i> FCPU for External Clock is Fhosc/1~Fhosc/128.
+                      61     
+                      62     ;   </h>
+                      63     ;   <o.0> Noise Filter <0x01=> Disable <0x00=> Enable
+  0001                64         NOISEFILT_SET   EQU     0x01                ;       {0x47FC}
+                      65             
+                      66     
+                      67     ;       <o.3> CK_Fine_Tuning <0x01=> Disable <0x00=> Enable
+  0008                68         CK_Fine_Tuning_SET   EQU     0x08           ;       {0x47FF}
+                      69     ;   <i> IHRC frequency fine tuning function.
+                      70     
+                      71     ;
+                      72     ;   <h> Reset Sources
+                      73     ;
+                      74     ;       <o.4..5> External Reset / GPIO Shared Pin <0x00=> Reset with De-bounce <0x02=> Rese
+                             t without De-bounce <0x03=> GPIO
+  0030                75             RESETPIN_SET    EQU     0x30    ;       {0x47FC}
+                      76     ;       <i> Reset with De-bounce: Triggers reset if this pin is pulled low over 8 ms.
+                      77     ;       <i> Reset without De-bounce: Triggers reset immediately if this pin is pulled low.
+                      78     ;       <i> GPIO: The shared pin is reserved for general purpose input/output.
+                      79     ;       <i> The de-bounce period is based on Internal Low R-C Clock which has a gentle inac
+                             curacy.
+                      80     ;
+                      81     ;       <o.4..7> Watchdog Reset <0x00=> Always <0x05=> Enable <0x0A=> Disable 
+  0000                82             WATCHDOG_SET    EQU     0x00    ;       {0x47FF}
+                      83     ;       <i> Always: Trun on watchdog function including Normal, IDLE, and STOP mode.
+                      84     ;       <i> Enable: Turn on watchdog function only in Normal mode.
+                      85     ;       <i> Disable: Turn off watchdog function.
+                      86     ;
+                      87     ;       <o.6..7> Watchdog Overflow Period <0x00=> 64 ms <0x01=> 128 ms <0x02=> 256 ms <0x03
+                             => 512 ms
+  00C0                88             WATCHCLK_SET    EQU     0xC0    ;       {0x47FC}
+                      89     ;       <i> The watchdog overflow period is based on Internal Low R-C Clock which has a gen
+                             tle inaccuracy.
+                      90     
+                      91     
+                      92     ;   </h>
+                      93     
+                      94     
+                      95     
+----                  96         CSEG    AT      0x47F6
+47F6 FF               97         DB      0xFF
+47F7 FF               98         DB      0xFF
+47F8 FF               99         DB      0xFF
+47F9 FF              100         DB      0xFF
+47FA FF              101         DB      0xFF
+                     102             IF              CLOCKSRC_SET==0x14
+47FB B7              103         DB      IHRC32M_CLOCKRATE_SET + CLOCKSRC_SET + 0x02 + 0x01
+                     104             ENDIF
+                     105             IF              CLOCKSRC_SET==0x10
+                                 DB      IHRC32M_RTC_CLOCKRATE_SET + CLOCKSRC_SET + 0x02 + 0x01
+                                     ENDIF
+                     108             IF              CLOCKSRC_SET==0x0C
+                                 DB      XTAL16M_CLOCKRATE_SET + CLOCKSRC_SET + 0x02 + 0x01
+                                     ENDIF
+A51 MACRO ASSEMBLER  OPTIONS_SN8F5762                                                     08/06/2024 21:58:05 PAGE     3
+
+                     111             IF              CLOCKSRC_SET==0x04
+                                 DB      XTAL12M_CLOCKRATE_SET + CLOCKSRC_SET + 0x02 + 0x01
+                                     ENDIF
+                     114             IF              CLOCKSRC_SET==0x00
+                                 DB      XTAL4M_CLOCKRATE_SET + CLOCKSRC_SET + 0x02 + 0x01
+                                     ENDIF
+                     117             IF              CLOCKSRC_SET==0x08
+                                 DB      EXTERNAL_CLOCKRATE_SET + CLOCKSRC_SET + 0x02 + 0x01
+                                     ENDIF
+47FC FF              120         DB      WATCHCLK_SET +  RESETPIN_SET + 0x08 + 0x06 + NOISEFILT_SET
+47FD 5A              121         DB          0x5A
+47FE A5              122         DB          0xA5
+47FF 0C              123         DB      WATCHDOG_SET + CK_Fine_Tuning_SET + ISP_EN_SET + SECURITY_SET
+                     124         END
+A51 MACRO ASSEMBLER  OPTIONS_SN8F5762                                                     08/06/2024 21:58:05 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                    T Y P E  V A L U E   ATTRIBUTES
+
+CK_FINE_TUNING_SET. . . .  N NUMB   0008H   A   
+CLOCKSRC_SET. . . . . . .  N NUMB   0014H   A   
+EXTERNAL_CLOCKRATE_SET. .  N NUMB   00C0H   A   
+IHRC32M_CLOCKRATE_SET . .  N NUMB   00A0H   A   
+IHRC32M_RTC_CLOCKRATE_SET  N NUMB   00A0H   A   
+ISP_EN_SET. . . . . . . .  N NUMB   0004H   A   
+NOISEFILT_SET . . . . . .  N NUMB   0001H   A   
+RESETPIN_SET. . . . . . .  N NUMB   0030H   A   
+ROM_SIZE. . . . . . . . .  N NUMB   4800H   A   
+SECURITY_SET. . . . . . .  N NUMB   0000H   A   
+WATCHCLK_SET. . . . . . .  N NUMB   00C0H   A   
+WATCHDOG_SET. . . . . . .  N NUMB   0000H   A   
+XTAL12M_CLOCKRATE_SET . .  N NUMB   00C0H   A   
+XTAL16M_CLOCKRATE_SET . .  N NUMB   00C0H   A   
+XTAL4M_CLOCKRATE_SET. . .  N NUMB   00E0H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,249 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    08/08/2024  16:09:26  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\OPTIONS_SN8F5701.obj, .\Objects\main.obj TO .\Objects\project1 PRINT (.\Listings\p
+>> roject1.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\OPTIONS_SN8F5701.obj (OPTIONS_SN8F5701)
+  .\Objects\main.obj (MAIN)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FPADD)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FPMUL)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FPDIV)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FCAST)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?CASTF)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (LOG)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FPGETOPN)
+  C:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FPSERIES)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?LMUL)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?SLDIV)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?LNEG)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?LLDCODE)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?LLDCODE0)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?ULDIV)
+
+
+LINK MAP OF MODULE:  .\Objects\project1 (OPTIONS_SN8F5701)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0008H     UNIT         _DATA_GROUP_
+            DATA    0010H     0004H     UNIT         ?DT?MAIN
+                    0014H     000CH                  *** GAP ***
+            BIT     0020H.0   0000H.1   UNIT         _BIT_GROUP_
+                    0020H.1   0000H.7                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     04F5H     UNIT         ?C?LIB_CODE
+            CODE    0CF5H     0135H     UNIT         ?PR?LOG?LOG
+            CODE    0E2AH     0079H     UNIT         ?PR?_CONVERT_ADC_TO_TEMPERATURE?MAIN
+            CODE    0EA3H     005DH     UNIT         ?PR?MAIN?MAIN
+            CODE    0F00H     0044H     UNIT         ?C?LDIV
+            CODE    0F44H     0023H     UNIT         ?PR?_READ_ADC?MAIN
+            CODE    0F67H     0016H     UNIT         ?PR?SETUP?MAIN
+            CODE    0F7DH     000CH     UNIT         ?C_C51STARTUP
+                    0F89H     006DH                  *** GAP ***
+            CODE    0FF6H     000AH     ABSOLUTE     
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  08/08/2024  16:09:26  PAGE 2
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\project1 (OPTIONS_SN8F5701)
+
+
+SEGMENT                                         BIT_GROUP          DATA_GROUP 
+  +--> CALLED SEGMENT                        START    LENGTH     START    LENGTH
+--------------------------------------------------------------------------------
+?C_C51STARTUP                                -----    -----      -----    -----
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN                                -----    -----      0008H    0002H
+  +--> ?PR?SETUP?MAIN
+  +--> ?PR?_READ_ADC?MAIN
+  +--> ?PR?_CONVERT_ADC_TO_TEMPERATURE?MAIN
+
+?PR?_CONVERT_ADC_TO_TEMPERATURE?MAIN         -----    -----      000AH    0002H
+  +--> ?PR?LOG?LOG
+
+?PR?LOG?LOG                                  0020H.0  0000H.1    000CH    0004H
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\project1 (OPTIONS_SN8F5701)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        OPTIONS_SN8F5701
+  N:0000H         SYMBOL        CK_FINE_TUNING_SET
+  N:0000H         SYMBOL        RESETPIN_SET
+  N:1000H         SYMBOL        ROM_SIZE
+  N:0000H         SYMBOL        SECURITY_SET
+  N:00C0H         SYMBOL        WATCHCLK_SET
+  N:0000H         SYMBOL        WATCHDOG_SET
+  -------         ENDMOD        OPTIONS_SN8F5701
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00A8H         PUBLIC        IEN0
+  D:00B8H         PUBLIC        IEN1
+  C:0EA3H         PUBLIC        main
+  C:0F44H         PUBLIC        _read_adc
+  B:0080H.0       PUBLIC        P00
+  B:0080H.1       PUBLIC        P01
+  C:0F67H         PUBLIC        setup
+  D:0088H         PUBLIC        TCON
+  D:0010H         PUBLIC        adc_value_1
+  D:0012H         PUBLIC        adc_value_2
+  D:00D3H         PUBLIC        ADB
+  D:00F9H         PUBLIC        P0M
+  D:00FAH         PUBLIC        P1M
+  D:00D2H         PUBLIC        ADM
+  D:00D9H         PUBLIC        ADCAL
+  D:00D4H         PUBLIC        ADR
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  08/08/2024  16:09:26  PAGE 3
+
+
+  D:0098H         PUBLIC        S0CON
+  C:0E2AH         PUBLIC        _convert_adc_to_temperature
+  D:00D0H         PUBLIC        PSW
+  D:00D5H         PUBLIC        VREFH
+  -------         PROC          SETUP
+  C:0F67H         LINE#         6
+  C:0F67H         LINE#         7
+  C:0F6AH         LINE#         8
+  C:0F6DH         LINE#         9
+  C:0F70H         LINE#         10
+  C:0F73H         LINE#         11
+  C:0F76H         LINE#         12
+  C:0F79H         LINE#         13
+  C:0F7CH         LINE#         14
+  -------         ENDPROC       SETUP
+  -------         PROC          _CONVERT_ADC_TO_TEMPERATURE
+  D:000AH         SYMBOL        adc_value
+  -------         DO            
+  D:0004H         SYMBOL        resistance
+  D:0006H         SYMBOL        temperature
+  -------         ENDDO         
+  C:0E2AH         LINE#         23
+  C:0E2EH         LINE#         24
+  C:0E5BH         LINE#         25
+  -------         ENDPROC       _CONVERT_ADC_TO_TEMPERATURE
+  -------         PROC          _READ_ADC
+  D:0007H         SYMBOL        channel
+  C:0F44H         LINE#         30
+  C:0F44H         LINE#         31
+  C:0F47H         LINE#         32
+  C:0F4AH         LINE#         33
+  C:0F4DH         LINE#         34
+  C:0F52H         LINE#         35
+  C:0F66H         LINE#         36
+  -------         ENDPROC       _READ_ADC
+  -------         PROC          MAIN
+  -------         DO            
+  D:0006H         SYMBOL        temp_1
+  D:0008H         SYMBOL        temp_2
+  -------         ENDDO         
+  C:0EA3H         LINE#         40
+  C:0EA3H         LINE#         42
+  C:0EA6H         LINE#         43
+  C:0EA6H         LINE#         46
+  C:0EAFH         LINE#         47
+  C:0EB2H         LINE#         49
+  C:0EBDH         LINE#         50
+  C:0EBFH         LINE#         51
+  C:0ECCH         LINE#         52
+  C:0ECEH         LINE#         53
+  C:0ECEH         LINE#         56
+  C:0ED7H         LINE#         57
+  C:0EDEH         LINE#         59
+  C:0EEBH         LINE#         60
+  C:0EEDH         LINE#         61
+  C:0EFCH         LINE#         62
+  C:0EFEH         LINE#         63
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  08/08/2024  16:09:26  PAGE 4
+
+
+  C:0EFEH         LINE#         64
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        ?C?FPADD
+  C:0807H         PUBLIC        ?C?FPADD
+  C:0803H         PUBLIC        ?C?FPSUB
+  -------         ENDMOD        ?C?FPADD
+
+  -------         MODULE        ?C?FPMUL
+  C:08F8H         PUBLIC        ?C?FPMUL
+  -------         ENDMOD        ?C?FPMUL
+
+  -------         MODULE        ?C?FPDIV
+  C:0A01H         PUBLIC        ?C?FPDIV
+  -------         ENDMOD        ?C?FPDIV
+
+  -------         MODULE        ?C?FCAST
+  C:0AA8H         PUBLIC        ?C?FCASTC
+  C:0AA3H         PUBLIC        ?C?FCASTI
+  C:0A9EH         PUBLIC        ?C?FCASTL
+  -------         ENDMOD        ?C?FCAST
+
+  -------         MODULE        ?C?CASTF
+  C:0ADCH         PUBLIC        ?C?CASTF
+  -------         ENDMOD        ?C?CASTF
+
+  -------         MODULE        LOG
+  C:0D29H         PUBLIC        _LOG
+  C:0D25H         PUBLIC        _LOG10
+  -------         ENDMOD        LOG
+
+  -------         MODULE        ?C?LMUL
+  C:0BAAH         PUBLIC        ?C?LMUL
+  -------         ENDMOD        ?C?LMUL
+
+  -------         MODULE        ?C?SLDIV
+  C:0F00H         PUBLIC        ?C?SLDIV
+  -------         ENDMOD        ?C?SLDIV
+
+  -------         MODULE        ?C?LNEG
+  C:0BF9H         PUBLIC        ?C?LNEG
+  -------         ENDMOD        ?C?LNEG
+
+  -------         MODULE        ?C?LLDCODE
+  C:0C07H         PUBLIC        ?C?LLDCODE
+  -------         ENDMOD        ?C?LLDCODE
+
+  -------         MODULE        ?C?LLDCODE0
+  C:0C17H         PUBLIC        ?C?LLDCODE0
+  -------         ENDMOD        ?C?LLDCODE0
+
+  -------         MODULE        ?C?ULDIV
+  C:0C63H         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+******************************************************************************
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  08/08/2024  16:09:26  PAGE 5
+
+
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0119H BYTE (13%) *
+******************************************************************************
+
+Program Size: data=21.1 xdata=0 code=1942
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

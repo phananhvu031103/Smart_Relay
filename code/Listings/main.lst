@@ -1,0 +1,91 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              08/08/2024 16:09:09 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "SN8F5762.H"
+   2          #include <math.h>
+   3          
+   4          unsigned int adc_value_1, adc_value_2;  // bien de luu gia tri 2 cam bien
+   5          
+   6          void setup() {
+   7   1        P0M &= ~(1 << 0); // dat P00 la dau ra GPIO
+   8   1        P0M &= ~(1 << 1); // dat P01 la dau ra GPIO
+   9   1        P1M |= (1 << 6);  // dat P16 la dau vao analog
+  10   1        P1M |= (1 << 7);  // dat P17 la dau vao analog
+  11   1        ADM = 0x80;  // ADENB = 1 de bat ADC
+  12   1        VREFH = 0x04;  // dat dien ap tham chieu la VDD
+  13   1        ADCAL = 0x01;  // bat che do tu dieu chinh ADC
+  14   1      }
+  15          // marco dieu khien cac relay
+  16          #define RELAY1_ON  (P00 = 1)  // bat relay 1
+  17          #define RELAY1_OFF (P00 = 0)  // tat relay 1
+  18          #define RELAY2_ON  (P01 = 1)  // bat relay 2
+  19          #define RELAY2_OFF (P01 = 0)  // tat relay 2
+  20          
+  21          // ham chuyen doi gia tri anlog sang nhiet do
+  22          // su dung cam bien mf58
+  23          int convert_adc_to_temperature(unsigned int adc_value) {
+  24   1        long resistance = 10000L * (4095 - adc_value) / adc_value;
+  25   1        int temperature = (3950 * (25 + 273) / (3950 + (25 + 273) * log (resistance / 10000.0)) - 273);
+  26   1        return temperature;
+  27   1      }
+  28          
+  29          // doc gia tri ADC tu kenh chi dinh
+  30          unsigned int read_adc(unsigned char channel) {
+  31   1        ADM &= 0xFC; // xoa cac bit kenh
+  32   1        ADM |= channel; // chon kenh
+  33   1        ADM |= 0x40; // bat dau chuyen doi ADC
+  34   1        while(ADCAL & 0x40); // doi den khi chuyen doi hoan tat
+  35   1        return (ADB << 4) + (ADR & 0x0F); // ket hop cac bit cao va thap cua ket qua ADC
+  36   1      }
+  37          
+  38          
+  39          
+  40          void main() {
+  41   1        int temp_1, temp_2;
+  42   1        setup();
+  43   1        while (1) {
+  44   2          
+  45   2          // ma nguon cho cam bien nong
+  46   2          adc_value_1 = read_adc(0x06); // goi ham doc gia tri tu cam bien nong
+  47   2          temp_1 = convert_adc_to_temperature(adc_value_1); // chuyen doi analog sang nhiet do
+  48   2          // neu nhiet do cam bien nong > 90 do thi relay nong tat 
+  49   2          if (temp_1 > 90) { 
+  50   3            RELAY1_OFF;
+  51   3          } else if (temp_1 < 85) {  // neu nhiet do cam bien nong < 85 do thi relay nong bat
+  52   3            RELAY1_ON;
+  53   3          }
+  54   2      
+C51 COMPILER V9.60.7.0   MAIN                                                              08/08/2024 16:09:09 PAGE 2   
+
+  55   2          // ma nguon cho cam bien lanh
+  56   2          adc_value_2 = read_adc(0x07); // goi ham doc gia tri tu cam bien lanh
+  57   2          temp_2 = convert_adc_to_temperature(adc_value_2); // chuyen doi analog sang nhiet do
+  58   2          // neu nhiet do cam bien lanh < 5  do thi relay lanh tat
+  59   2          if (temp_2 < 5) {  
+  60   3            RELAY2_OFF;
+  61   3          } else if(temp_2 > 10) {    // neu nhiet do cam bien lanh > 10 thi relay lanh bat
+  62   3            RELAY2_ON;
+  63   3          }
+  64   2        }
+  65   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    271    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

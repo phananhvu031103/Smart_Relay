@@ -1,0 +1,92 @@
+A51 MACRO ASSEMBLER  OPTIONS_SN8F5701                                                     08/01/2024 00:18:42 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\OPTIONS_SN8F5701.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE OPTIONS_SN8F5701.A51 SET(SMALL) DEBUG PRINT(.\Listings\OPTIONS_SN8F5701
+                      .lst) OBJECT(.\Objects\OPTIONS_SN8F5701.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     $nomod51 
+                       2     ;------------------------------------------------------------------------------
+                       3     ;
+                       4     ;  Copyright (c) 2019 SONiX Technology Co., Ltd.
+                       5     ;  Version 1.0 - SN8F5701
+                       6     ;  Version 1.1 - Remove NOISEFILT_SET   
+                       7     ;  *** <<< Use Configuration Wizard in Context Menu >>> ***
+                       8     ;------------------------------------------------------------------------------
+                       9     ;
+                      10     ;  This preference, such as watchdog, external reset pin, and clock source, is preloaded 
+                      11     ;  during the microcontroller's power-on. It is strongly recommanded to use configuration 
+                      12     ;  wizard to set these parameters up appropriately.
+                      13     ;
+                      14     ;------------------------------------------------------------------------------
+  1000                15     ROM_SIZE                EQU             0x1000
+                      16     ;
+                      17     ;   <o> Program Memory Security <0x00=> Disable <0x01=> Enable
+  0000                18         SECURITY_SET    EQU     0x00                ;       {0x0FFF}
+                      19     ;   <i> The debug interface cannot read program memory if this security option is enable.
+                      20     ;   <i> Erase Full Chip can be proformmed to erase original code/data and unlock security.
+                      21     ;
+                      22             
+                      23     ;       <o.1> CK_Fine_Tuning <0x00=> Disable <0x01=> Enable
+  0000                24         CK_Fine_Tuning_SET   EQU     0x00           ;       {0x0FFB}        
+                      25     
+                      26     ;   <h> Reset Sources
+                      27     ;       <o.4..5> External Reset / GPIO Shared Pin <0x03=> Reset with De-bounce <0x01=> Rese
+                             t without De-bounce <0x00=> GPIO
+  0000                28             RESETPIN_SET    EQU     0x00    ;       {0x0FFC}
+                      29     ;       <i> Reset with De-bounce: Triggers reset if this pin is pulled low over 8 ms.
+                      30     ;       <i> Reset without De-bounce: Triggers reset immediately if this pin is pulled low.
+                      31     ;       <i> GPIO: The shared pin is reserved for general purpose input/output.
+                      32     ;       <i> The de-bounce period is based on Internal Low R-C Clock which has a gentle inac
+                             curacy.
+                      33     ;
+                      34     ;       <o.4..7> Watchdog Reset <0x00=> Always <0x05=> Enable <0x0A=> Disable
+  0000                35             WATCHDOG_SET    EQU     0x00    ;       {0x0FFF}
+                      36     ;       <i> Always: Trun on watchdog function including Normal, IDLE, and SLEEP mode.
+                      37     ;       <i> Enable: Turn on watchdog function only in Normal mode.
+                      38     ;       <i> Disable: Turn off watchdog function.
+                      39     ;
+                      40     ;       <o.6..7> Watchdog Overflow Period <0x03=> 64 ms <0x02=> 128 ms <0x01=> 256 ms <0x00
+                             => 512 ms
+  00C0                41             WATCHCLK_SET    EQU     0xC0    ;       {0x0FFC}
+                      42     ;       <i> The watchdog overflow period is based on Internal Low R-C Clock which has a gen
+                             tle inaccuracy.
+                      43     ;   </h>
+                      44     
+----                  45         CSEG    AT      0x0FF6
+0FF6 00               46         DB      0x00
+0FF7 00               47         DB      0x00
+0FF8 00               48         DB      0x00
+0FF9 00               49         DB      0x00
+0FFA 00               50         DB      0x00
+0FFB 00               51         DB      CK_Fine_Tuning_SET 
+0FFC C8               52         DB      WATCHCLK_SET + RESETPIN_SET + 0x08
+0FFD 5A               53         DB          0x5A
+A51 MACRO ASSEMBLER  OPTIONS_SN8F5701                                                     08/01/2024 00:18:42 PAGE     2
+
+0FFE A5               54             DB              0xA5
+0FFF 00               55         DB      WATCHDOG_SET + SECURITY_SET
+                      56         END
+A51 MACRO ASSEMBLER  OPTIONS_SN8F5701                                                     08/01/2024 00:18:42 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+CK_FINE_TUNING_SET  N NUMB   0000H   A   
+RESETPIN_SET . . .  N NUMB   0000H   A   
+ROM_SIZE . . . . .  N NUMB   1000H   A   
+SECURITY_SET . . .  N NUMB   0000H   A   
+WATCHCLK_SET . . .  N NUMB   00C0H   A   
+WATCHDOG_SET . . .  N NUMB   0000H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
