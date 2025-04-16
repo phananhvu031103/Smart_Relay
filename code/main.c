@@ -71,46 +71,46 @@ void Delay1ms(unsigned int n)
 // Ham chon kenh ADC de doc gia tri ADC
 void ADC_Select_Input_Channel(uint8_t Channel)
 {
-		switch (Channel)   						// CHS[4:0]
+	switch (Channel)   						// CHS[4:0]
+	{
+		case(0):
 		{
-			case(0):
-			{
-				ADM =  CLR_ADCCH | SelAIN7; //Select AIN7 for Hot Block
-				break;
-			}
-			case(1):
-			{
-				ADM =  CLR_ADCCH | SelAIN8; //Select AIN8 for Cold Block
-				break;
-			}
-			default:
-			{
-				break;
-			}	
+			ADM =  CLR_ADCCH | SelAIN7; //Select AIN7 for Hot Block
+			break;
+		}
+		case(1):
+		{
+			ADM =  CLR_ADCCH | SelAIN8; //Select AIN8 for Cold Block
+			break;
+		}
+		default:
+		{
+			break;
 		}	
+	}	
 }
 
 //Configure ADC
 void ADCInit(void)
 {
-		P0  = 0x00;
-		P0M = 0x80;
+	P0  = 0x00;
+	P0M = 0x80;
 	
-		// set AIN7/P06 and AIN8/P05 pin's mode at pure analog pin
-		P0CON |= 0x60; //AIN7/P0.6   AIN8/P0.5
-		P0M   &= 0x9F; //input mode for P05 and P06
-		P1UR  &= 0x9F; //disable pull-high
+	// set AIN7/P06 and AIN8/P05 pin's mode at pure analog pin
+	P0CON |= 0x60; //AIN7/P0.6   AIN8/P0.5
+	P0M   &= 0x9F; //input mode for P05 and P06
+	P1UR  &= 0x9F; //disable pull-high
 
 	
-		// ADC clock source, enable channel and select conversion speed
-		ADR   = ADCClkFosc | ADCChannelEn;
-		ADCAL = ADCSpeedDiv4;
+	// ADC clock source, enable channel and select conversion speed
+	ADR   = ADCClkFosc | ADCChannelEn;
+	ADCAL = ADCSpeedDiv4;
 	
-		// configure reference voltage
-		VREFH = ADCInRefVDD;
-
-		// enable ADC
-		ADM |= ADCEn;
+	// configure reference voltage
+	VREFH = ADCInRefVDD;
+	
+	// enable ADC
+	ADM |= ADCEn;
 
 }
 
@@ -119,63 +119,63 @@ void ADCInit(void)
 void ADC_Start_Covering(void)
 {
 	// ADC Calibration. 
-		ADCAL |= ADCCal; //ADC start calibration
-		while(ADCAL & ADCCal); //Check ADC calibrationbit
-		ADCAL |= ADCCovAddCal; //ADC conversion with calibration value
+	ADCAL |= ADCCal; //ADC start calibration
+	while(ADCAL & ADCCal); //Check ADC calibrationbit
+	ADCAL |= ADCCovAddCal; //ADC conversion with calibration value
 	
 	// start ADC conversion
-		ADM |= ADCStart;
+	ADM |= ADCStart;
 }
 
 
 int main(void)
 {
-		uint16_t adc_value[2];//Contain adc_value of input 
-		ADCInit();					  //Configure ADC
-		P1M = 0xFF; 				  //Set Port 1 is OUTPUT
-		P1 = 0x00;  				  //All pin in PORT 1 has default output is 0
+	uint16_t adc_value[2];//Contain adc_value of input 
+	ADCInit();					  //Configure ADC
+	P1M = 0xFF; 				  //Set Port 1 is OUTPUT
+	P1 = 0x00;  				  //All pin in PORT 1 has default output is 0
 		
-	  //Infinity loop
-		while(1)
+	//Infinity loop
+	while(1)
+	{
+		//Read ADC of Hot controller sensor AIN7
+		ADC_Select_Input_Channel(0);
+		ADC_Start_Covering();
+		while (!_EOC); 
+		ADM &= ClearEOC;
+		adc_value[0] = (ADB << 4) | (ADR & 0x0F);
+			
+		//Read ADC of Cold controller sensor AIN8
+		ADC_Select_Input_Channel(1);
+		ADC_Start_Covering();
+		while (!_EOC);
+		ADM &= ClearEOC;
+		adc_value[1] = (ADB << 4) | (ADR & 0x0F);
+			
+		//Check condition and  output signal
+ 		if (adc_value[0] < Hot_Upper_Value)//350
 		{
-			//Read ADC of Hot controller sensor AIN7
-			ADC_Select_Input_Channel(0);
-			ADC_Start_Covering();
-			while (!_EOC); 
-			ADM &= ClearEOC;
-			adc_value[0] = (ADB << 4) | (ADR & 0x0F);
+			//Off hot block
+			Hot_Block_Control = 0;
+		}
+		else if (adc_value[0] > Hot_Lower_Value)//401
+		{
+			//On hot block
+			Hot_Block_Control = 1;
+		}
 			
-			//Read ADC of Cold controller sensor AIN8
-			ADC_Select_Input_Channel(1);
-			ADC_Start_Covering();
-			while (!_EOC);
-			ADM &= ClearEOC;
-			adc_value[1] = (ADB << 4) | (ADR & 0x0F);
+		if (adc_value[1] < Cold_Upper_Value)//2738
+		{
+			//On cold block
+			Cold_Block_Control = 1;
+		}
+		else if (adc_value[1] > Cold_Lower_Value)//2956
+		{
+			//Off cold block
+			Cold_Block_Control = 0;
+		}
 			
-			//Check condition and  output signal
- 			if (adc_value[0] < Hot_Upper_Value)//350
-			{
-				//Off hot block
-				Hot_Block_Control = 0;
-			}
-			else if (adc_value[0] > Hot_Lower_Value)//401
-			{
-				//On hot block
-				Hot_Block_Control = 1;
-			}
-			
-			if (adc_value[1] < Cold_Upper_Value)//2738
-			{
-				//On cold block
-				Cold_Block_Control = 1;
-			}
-			else if (adc_value[1] > Cold_Lower_Value)//2956
-			{
-				//Off cold block
-				Cold_Block_Control = 0;
-			}
-			
-			Delay1ms(1000);  //Delay 1s
-		}	
+		Delay1ms(1000);  //Delay 1s
+	}	
 		
 }
