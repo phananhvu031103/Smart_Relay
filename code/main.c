@@ -37,7 +37,7 @@
 #define CLR_ADCCH (ADM & 0xF0) //clear CHS[3:0]
 #define _EOC (ADM & 0x20)			 // ADC status (EOC)
 
-
+//hello
 //DEFINE TEMPERATURE_LEVEL ADC_VALUE
 #define Hot_Upper_Value 350 	//Nhiet do 90 do
 #define Hot_Lower_Value 401		//Nhiet do 85 do
